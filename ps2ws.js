@@ -133,7 +133,7 @@ function itsPlayerData(data) {
         
         //One Suicide
         else if (data.attacker_character_id === data.character_id) {
-            console.log(painter.faction(name1) + ' killed themselves!', faction1);
+            console.log(painter.faction(name1 + ' killed themselves!', faction1));
             teamOneSuicide(data, objectivePointsMap, item);
         }
 
@@ -156,7 +156,7 @@ function itsPlayerData(data) {
 
         // Two Suicide
         else if (data.attacker_character_id === data.character_id) {
-            console.log(painter.faction(name2) + ' killed themselves!', faction2);
+            console.log(painter.faction(name2 + ' killed themselves!', faction2));
             teamTwoSuicide(data, objectivePointsMap, item);
         }
         
