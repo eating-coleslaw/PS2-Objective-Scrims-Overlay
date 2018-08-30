@@ -11,6 +11,8 @@
     color: var(--faction-light-color, rgb(245, 245, 255));
     font-weight: 500;
     font-size: 13px;
+    position: relative;
+    top: -12px;
 }
 
 #T1Players {
