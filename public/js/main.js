@@ -11,6 +11,8 @@ socket.on('connect', function() {
 
     socket.on('title', function(title) {
         $('#eventTitle').html(title);
+        $('#eventTitle2').html(title);
+        $('#eventTitle3').html(title);
     });
 
     socket.on('teams', function (data) {
