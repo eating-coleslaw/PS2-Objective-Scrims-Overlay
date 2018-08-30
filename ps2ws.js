@@ -486,8 +486,6 @@ function subscribe(ws) {
     var xpGainString = getExperienceIds(true, false, true, true, true, false);
 
     console.log(painter.white('Subscribing to DBG websocket...'));
-    // console.log(painter.red('red') + painter.green('green') + painter.yellow('yellow') + painter.black('black') + painter.blue('blue') + painter.magenta('magenta') + painter.cyan('cyan') + painter.white('white'));
-    painter.sample();
 
     //team1 subscribing
     teamOneObject.memberArray.forEach(function (member) {

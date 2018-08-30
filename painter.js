@@ -42,13 +42,13 @@ function faction(value, faction, background) {
 
 function factionBg(value, faction) {
 	// VS
-	if ( faction === 1) { return blueBg(value);}
+	if ( faction == 1) { return blueBg(value);}
 	
 	// NC - lightAqua instead of lightBlue for accessiblity
-	else if ( faction === 2) { return lightAquaBg(value);}
+	else if ( faction == 2) { return lightAquaBg(value);}
 
 	// TR
-	else if ( faction === 3) { return redBg(value);}
+	else if ( faction == 3) { return redBg(value);}
 
 	else { return whiteBg(value); }
 }
