@@ -75,7 +75,7 @@ const objectivePointsMap = {
     kill: 3, //2,
     dmgAssist: 1,
     utilAssist: 1,
-    control: 3,
+    control: 2, //3,
     death: -6, //-4,
     teamkill: -6, //-5,
     tkDeath: -1,
@@ -505,13 +505,13 @@ function subscribe(ws) {
     //start timer
     startTimer(ws);
 
-    console.log('Subscribed to facility and kill/death events between ' + teamOneObject.alias + ' and '  +teamTwoObject.alias);
+    console.log('Subscribed to facility and kill/death events between ' + painter.faction(' ' + teamOneObject.alias + ' ', teamOneObject.faction, true) + ' and ' + painter.faction(' ' + teamTwoObject.alias + ' ', teamTwoObject.faction, true));
 }
 
 function unsubscribe(ws) {
     // unsubscribes from all events
     ws.send('{"service":"event","action":"clearSubscribe","all":"true"}');
-    console.log('Unsubscribed from facility and kill/death events between ' + teamOneObject.alias + ' and '  +teamTwoObject.alias);
+    console.log('Unsubscribed from facility and kill/death events between ' + painter.faction(' ' + teamOneObject.alias + ' ', teamOneObject.faction, true) + ' and ' + painter.faction(' ' + teamTwoObject.alias + ' ', teamTwoObject.faction, true));
 }
 
 function startTimer(ws) {
@@ -557,14 +557,13 @@ function playRoundEndAudio() {
 function startUp(oneObj, twoObj, secsInt, title) {
     // Initialising items determines whether a match can go ahead as it pulls from the API each time so requires the API to be functional
     items.initialise().then(function() {
-        console.log(painter.black('====================================================================================================================================='));
+        console.log(painter.gray('====================================================================================================================================='));
         team.setTeams(oneObj, twoObj);
         teamOneObject = team.getT1();
         teamTwoObject = team.getT2();
         matchLength = secsInt;
         eventTitle = title ? title : '#BanConcs'; //'PS2 IvI Scrims';
         createStream();
-        // overlay.startKillfeed();
         app.send('refresh', '');
         app.send('title', String(eventTitle));
         console.log('Match Started: ' + painter.cyan(eventTitle));
@@ -576,7 +575,7 @@ function startUp(oneObj, twoObj, secsInt, title) {
 }
 
 function newRound() {
-    console.log('=====================================================================================================================================');
+    console.log(painter.gray('====================================================================================================================================='));
     teamOneObject = team.getT1();
     teamTwoObject = team.getT2();
     createStream();

@@ -301,25 +301,35 @@ function getClassFromLoadoutID(loadoutID) {
 
 function getEmojiFromNetEventScore(netEventScore) {
     // Neutral -> Negative Score Emojis
-    if (netEventScore <= 2) {
-        if (netEventScore >= -3) { return makeEmojiClassString('meh');}         // :|
+    if (netEventScore === undefined) { return makeEmojiClassString('meh');}
+
+    else if (netEventScore <= 2) {
+        if (netEventScore >= -1) { return makeEmojiClassString('meh');}         // :|
         if (netEventScore >= -12) { return makeEmojiClassString('frown');}       // :(
-        // if (netEventScore >= -12) { return makeEmojiClassString('sad-tear');}   // ;( 
-        // if (netEventScore >= -16) { return makeEmojiClassString('sad-cry');}    // T.T 
-        if (netEventScore < -20) { return makeEmojiClassString('tired');}    // T.T 
+        else { return makeEmojiClassString('tired');}    // T.T 
+        // if (netEventScore < -20) { return makeEmojiClassString('tired');}    // T.T 
     }
     // Positive Score Emojis
     else if (netEventScore > 2) {
         if (netEventScore <= 6) { return makeEmojiClassString('smile');}
         if (netEventScore <= 20) { return makeEmojiClassString('grin-beam');}
-        // if (netEventScore < 6) { return makeEmojiClassString('laugh-squint');}
-        if (netEventScore > 20) { return makeEmojiClassString('laugh-beam');}
+        else { return makeEmojiClassString('laugh-beam');}
+        // if (netEventScore > 20) { return makeEmojiClassString('laugh-beam');}
     }
+
+    /*
+    if (netEventScore === undefined) { return makeEmojiClassString('battery-quarter');}
+    else if (netEventScore <= 0) { return makeEmojiClassString('battery-empty');}
+    else if (netEventScore <= 6) { return makeEmojiClassString('battery-quarter');}
+    else if (netEventScore <= 12) { return makeEmojiClassString('batter-half');}
+    else if (netEventScore <= 18) { return makeEmojiClassString('battery-three-quarters');}
+    else { return makeEmojiClassString('battery-full');}
+    */
 }
 
 function makeEmojiClassString(emoji) {
     let size =' sm';
-    let prefix = 'far fa-';
+    let prefix = 'fas fa-';
     return prefix + emoji + size;
 }
 
