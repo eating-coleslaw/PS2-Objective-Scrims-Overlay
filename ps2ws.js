@@ -117,48 +117,59 @@ function dealWithTheData(raw) {
 function itsPlayerData(data) {
     // deals with adding points to the correct player & team
     let item = items.lookupItem(data.attacker_weapon_id);
+    var faction1 = teamOneObject.faction;
+    var faction2 = teamTwoObject.faction;
     // let points = items.lookupPointsfromCategory(item.category_id);
     
     // Team 1 Killer
     if (teamOneObject.members.hasOwnProperty(data.attacker_character_id)) {
+        var name1 = teamOneObject.members[data.attacker_character_id].name;
         
         // One IVI Two
         if (teamTwoObject.members.hasOwnProperty(data.character_id)) {
+            console.log(painter.brightWhite('Kill: ') + painter.faction(name1 + ' => ', faction1) + painter.faction(teamTwoObject.members[data.character_id].name, faction2));
             oneIvITwo(data, objectivePointsMap, item);
         }
         
         //One Suicide
         else if (data.attacker_character_id === data.character_id) {
+            console.log(painter.faction(name1) + ' killed themselves!', faction1);
             teamOneSuicide(data, objectivePointsMap, item);
         }
 
         // One TK
         else if (teamOneObject.members.hasOwnProperty(data.character_id)) {
+            console.log(painter.brightWhite('Teamkill: ') + painter.faction(name1 + ' => ' + teamOneObject.members[data.character_id].name, faction1));
             teamOneTeamkill(data, objectivePointsMap, item);
         }
     }
 
     // Team 2 Killer
     else if (teamTwoObject.members.hasOwnProperty(data.attacker_character_id)) {
-        
+        var name2 = teamTwoObject.members[data.attacker_character_id].name;
+
         // Two IVI One
         if (teamOneObject.members.hasOwnProperty(data.character_id)) {
+            console.log(painter.brightWhite('Kill: ') + painter.faction(name2 + ' => ', faction2) + painter.faction(teamOneObject.members[data.character_id].name, faction1));
             twoIvIOne(data, objectivePointsMap, item);
         }
 
         // Two Suicide
         else if (data.attacker_character_id === data.character_id) {
+            console.log(painter.faction(name2) + ' killed themselves!', faction2);
             teamTwoSuicide(data, objectivePointsMap, item);
         }
         
         // Two TK
         else if (teamTwoObject.members.hasOwnProperty(data.character_id)) {
+            console.log(painter.brightWhite('Teamkill: ') + painter.faction(name2 + ' => ' + teamTwoObject.members[data.character_id].name, faction2));
             teamTwoTeamkill(data, objectivePointsMap, item);
         }
     }
 
+    // One of the players
     else {
-        console.log(painter.red('   --> Invalid Player Event <--'));
+        console.log(painter.gray('   --> Invalid Player Event <--'));
     }
 
     teamOneObject = team.getT1();
@@ -286,54 +297,55 @@ function itsFacilityData(data) {
 }
 
 function itsExperienceData(data) {
-    // console.log('processing data: ' + data.experience_id + ' | ' + data.character_id + ' (' + data.loadout_id + ')');
     if (teamOneObject.members.hasOwnProperty(data.character_id)) {
        let xpID = parseInt(data.experience_id);
        let characterName = teamOneObject.members[data.character_id].name;
+       let faction = teamOneObject.faction;
        // Revive Data
         if (allXpIdsRevives.includes(xpID && teamOneObject.members.hasOwnProperty(data.other_id))) {
+            console.log(painter.lightGreen('Team 1 Revive: ') + painter.faction(characterName, faction));
             teamOneRevive(data, objectivePointsMap);
-            console.log('Team 1 Revive: ' + characterName);
         }
 
         else if (allXpIdsDmgAssists.includes(xpID)) {
+            console.log(painter.lightPurple('Team 1 Dmg Assist: ') + painter.faction(characterName, faction));
             teamOneDmgAssist(data, objectivePointsMap);
-            console.log('Team 1 Dmg Assist: ' + characterName);
         }
 
         else if (allXpIdsUtilAssists.includes(xpID)) {
+            console.log(painter.lightYellow('Team 1 Util Assist: ') + painter.faction(characterName, faction));
             teamOneUtilAssist(data, objectivePointsMap);
-            console.log('Team 1 Util Assist: ' + characterName);
         }
 
         else if (allXpIdsPointControls.includes(xpID)) {
+            console.log(painter.yellow('Team 1 Point Control: ') + painter.faction(characterName, faction));
             teamOnePointControl(data, objectivePointsMap);
-            console.log('Team 1 Point Control: ' + characterName);
         }
     }
 
     else if (teamTwoObject.members.hasOwnProperty(data.character_id)) {
         let xpID = parseInt(data.experience_id);
         let characterName = teamTwoObject.members[data.character_id].name;
+        let faction = teamTwoObject.faction;
         // Team 2 Revive
         if (allXpIdsRevives.includes(xpID) && teamTwoObject.members.hasOwnProperty(data.other_id)) {
+            console.log(painter.lightGreen('Team 2 Revive: ') + painter.faction(characterName, faction));
             teamTwoRevive(data, objectivePointsMap);
-            console.log('Team 2 Revive: ' + characterName);
         }
 
         else if (allXpIdsDmgAssists.includes(xpID)) {
+            console.log(painter.lightPurple('Team 2 Dmg Assist: ') + painter.faction(characterName, faction));
             teamTwoDmgAssist(data, objectivePointsMap);
-            console.log('Team 2 Dmg Assist: ' + characterName);
         }
 
         else if (allXpIdsUtilAssists.includes(xpID)) {
+            console.log(painter.lightYellow('Team 2 Util Assist: ') + painter.faction(characterName, faction));
             teamTwoUtilAssist(data, objectivePointsMap);
-            console.log('Team 2 Util Assist: ' + characterName);
         }
 
         else if (allXpIdsPointControls.includes(xpID)) {
+            console.log(painter.yellow('Team 2 Point Control: ') + painter.faction(characterName, faction));
             teamTwoPointControl(data, objectivePointsMap);
-            console.log('Team 2 Point Control: ' + characterName);
         }
     }
 
@@ -362,12 +374,12 @@ function teamOneRevive(data, pointsMap) {
 function teamTwoRevive(data, pointsMap) {
     team.twoRevive(data.character_id, data.other_id, data.loadout_id, pointsMap);
     if (teamTwoObject.members.hasOwnProperty(data.other_id)) {
-        var loserName = 'Random Pubbie';
-        var score = 'loserName';
+        var loserName = teamTwoObject.members[data.other_id].name;
+        var loserScore = teamTwoObject.members[data.other_id].eventNetScore;
     }
     else {
-        var loserName = teamTwoObject.members[data.other_id].name;
-        var score = teamTwoObject.members[data.other_id].eventNetScore;
+        var loserName = 'Random Pubbie'
+        var loserScore = '';
     }
     killfeedPlayer({
         winner: teamTwoObject.members[data.character_id].name,
@@ -376,7 +388,7 @@ function teamTwoRevive(data, pointsMap) {
         winner_net_score: teamTwoObject.members[data.character_id].eventNetScore,
         loser: loserName,
         loser_faction: teamTwoObject.faction,
-        loser_net_score: teamTwoObject.members[data.other_id].eventNetScore,
+        loser_net_score: loserScore,
         weapon: 'Revive',
         is_revive: true
     });
@@ -459,7 +471,7 @@ function teamTwoPointControl(data, pointsMap) {
 function createStream() {
     const ws = new WebSocket('wss://push.planetside2.com/streaming?environment=ps2&service-id=s:' + api_key.KEY);
     ws.on('open', function open() {
-        console.log('stream opened');
+        console.log('Stream opened...');
         subscribe(ws);
     });
     ws.on('message', function (data) {
@@ -472,7 +484,10 @@ function createStream() {
 
 function subscribe(ws) {
     var xpGainString = getExperienceIds(true, false, true, true, true, false);
-    //ws.send('{"service":"event","action":"subscribe","characters":["all"],"eventNames":["Death",' + xpGainString + ']}');
+
+    console.log(painter.white('Subscribing to DBG websocket...'));
+    // console.log(painter.red('red') + painter.green('green') + painter.yellow('yellow') + painter.black('black') + painter.blue('blue') + painter.magenta('magenta') + painter.cyan('cyan') + painter.white('white'));
+    painter.sample();
 
     //team1 subscribing
     teamOneObject.memberArray.forEach(function (member) {
@@ -502,7 +517,7 @@ function unsubscribe(ws) {
 }
 
 function startTimer(ws) {
-    console.log('timer started');
+    console.log('Timer started...');
     roundTracker++;
     timeCounter = matchLength ? matchLength : 900;
     let time = setInterval(function () {
@@ -531,7 +546,7 @@ function stopTheMatch() {
 }
 
 function endRoundEarly(newFactionId, outfitTag) {
-    console.log(painter.green('Base Capture: [' + outfitTag + ']'));
+    console.log(painter.faction('Base Capture: [' + outfitTag + ']', newFactionId, true));
     app.send('base captured');
     stopTheMatch();
 }
@@ -544,7 +559,7 @@ function playRoundEndAudio() {
 function startUp(oneObj, twoObj, secsInt, title) {
     // Initialising items determines whether a match can go ahead as it pulls from the API each time so requires the API to be functional
     items.initialise().then(function() {
-        console.log('=====================================================================================================================================');
+        console.log(painter.black('====================================================================================================================================='));
         team.setTeams(oneObj, twoObj);
         teamOneObject = team.getT1();
         teamTwoObject = team.getT2();
@@ -554,11 +569,11 @@ function startUp(oneObj, twoObj, secsInt, title) {
         // overlay.startKillfeed();
         app.send('refresh', '');
         app.send('title', String(eventTitle));
-        console.log('Match Started: ' + painter.green(eventTitle));
+        console.log('Match Started: ' + painter.cyan(eventTitle));
         socket.setRunning(true);
     }).catch(function (err) {
-        console.error('Items did not initialise!!');
-        console.error(err);
+        console.error(painter.red('Items did not initialise!!'));
+        console.error(painter.red(err));
     });
 }
 
