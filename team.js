@@ -112,6 +112,8 @@ function getT1() { return t1; }
 
 function getT2() { return t2; }
 
+//#region Kill/Death Handling
+
 function oneIvITwo(one, two, oneClass, twoClass, pointsMap) {
     t1.kills++;
     t1.members[one].kills++;
@@ -206,6 +208,10 @@ function twoTeamKill(killer, killed, killerClass, killedClass, pointsMap) {
     logScore();
 }
 
+//#endregion Kill/Death Handling
+
+//#region Revive Experience Handling
+
 function oneRevive(medic, revived, medicClass, pointsMap) {
     t1.revives++;
     t1.members[medic].revives++;
@@ -241,6 +247,10 @@ function twoRevive(medic, revived, medicClass, pointsMap) {
     }
     logScore();
 }
+
+//#endregion Revive Experience Handling
+
+//#region Assist Experience Handling
 
 function oneDmgAssist(player, playerClass, pointsMap) {
     t1.dmgAssists++;
@@ -283,6 +293,8 @@ function twoUtilAssist(player, playerClass, pointsMap) {
     t2.members[player].ps2Class = playerClass;
     logScore();
 }
+
+//#endregion Assist Experience Handling
 
 function onePointControl(player, playerClass, pointsMap) {
     t1.members[player].eventCount++;
