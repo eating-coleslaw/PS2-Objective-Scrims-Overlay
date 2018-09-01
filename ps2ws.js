@@ -17,7 +17,8 @@ let  teamOneObject,
      roundTracker = 0,
      timeCounter = 0,
      matchLength = 900,
-     eventTitle;
+     eventTitle,
+     foundRoundCapture = false;
 
 const pointNumbers = ['0','1','11','12','13','21','22','23'];
 
@@ -285,6 +286,11 @@ function teamTwoTeamkill (data, pointsMap, item) {
 //#endregion
 
 function itsPlayerFacilityData(data) {
+    // if (foundRoundCapture === true) {
+    //     console.log('Discarded player facility event: round already ending.')    
+    //     return;
+    // }
+
     var char_id = data.character_id,
         t1 = teamOneObject,
         t2 = teamTwoObject;
@@ -292,10 +298,12 @@ function itsPlayerFacilityData(data) {
     // Team 1 Captured or Defended the base
     if (t1.members.hasOwnProperty(char_id)) {
         console.log('Team 1 Player Facility Capture');
+        foundRoundCapture = true;
         endRoundEarly(t1.faction, t1.name);
     }
     else if (t2.members.hasOwnProperty(char_id)) {
         console.log('Team 2 Player Facility Capture');
+        foundRoundCapture = true;
         endRoundEarly(t2.faction, t2.name)
     }
 
@@ -548,6 +556,7 @@ function unsubscribe(ws) {
 function startTimer(ws) {
     console.log('Timer started...');
     roundTracker++;
+    foundRoundCapture = false;
     timeCounter = matchLength ? matchLength : 900;
     let time = setInterval(function () {
         if (timeCounter < 1) {
@@ -578,7 +587,7 @@ function endRoundEarly(newFactionId, outfitTag) {
     console.log(painter.faction('Base Capture: [' + outfitTag + ']', newFactionId, true));
     app.send('base captured');
     stopTheMatch();
-    socket.setRunning(false);
+    //socket.setRunning(false);
 }
 
 function playRoundEndAudio() {

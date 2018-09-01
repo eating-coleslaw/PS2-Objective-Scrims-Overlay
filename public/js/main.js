@@ -227,7 +227,7 @@ function playRespawning(eventLoserName) {
             $('#' + loserID).one("webkitAnimationEnd oanimationend msAnimationEnd animationend",
                 function() {
                     emptyPlayersEventMask(eventLoserName);
-                    $('#' + eventLoserName).toggleClass('revivedFlashPlay deadTextPlay');
+                    $('#' + eventLoserName).remove('revivedFlashPlay deadTextPlay');
                     $('#' + classID).removeClass('revivedFlashPlay deadIconPlay');
 
                 });
@@ -237,6 +237,7 @@ function playRespawning(eventLoserName) {
 
 function playRevived(eventLoserName) {
     var classID = eventLoserName + 'class';
+    
     var player = document.getElementById(eventLoserName);
     player.className = "playerStatsContainer";
     
