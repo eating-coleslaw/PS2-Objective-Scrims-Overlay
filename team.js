@@ -215,7 +215,7 @@ function oneRevive(medic, revived, medicClass, pointsMap) {
     t1.members[medic].ps2Class = medicClass;
     
     if (t1.members.hasOwnProperty(revived)) {
-        console.log(painter.faction(t1.members[revived].name + ' took a revive!', t1.faction));
+        console.log(painter.faction(t1.members[revived].name, t1.faction) + painter.lightGreen(' took a revive!'));
         t1.members[revived].revivesTaken++;
         t1.members[revived].eventCount++;
         if (t1.members[revived].eventNetScore !== undefined) { t1.members[revived].eventNetScore += pointsMap.reviveTaken;}
@@ -233,7 +233,7 @@ function twoRevive(medic, revived, medicClass, pointsMap) {
     t2.members[medic].ps2Class = medicClass;
 
     if (t2.members.hasOwnProperty(revived)) {
-        console.log(painter.faction(t2.members[revived].name + ' took a revive!', t2.faction));
+        console.log(painter.faction(t2.members[revived].name, t2.faction) + painter.green(' took a revive!'));
         t2.members[revived].revivesTaken++;
         t2.members[revived].eventCount++;
         if (t2.members[revived].eventNetScore !== undefined) { t2.members[revived].eventNetScore += pointsMap.reviveTaken;}

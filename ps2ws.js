@@ -539,7 +539,7 @@ function resumeTheMatch() {
 }
 
 function stopTheMatch() {
-    playRoundEndAudio();
+    //playRoundEndAudio();
     timeCounter = 0;
 }
 
